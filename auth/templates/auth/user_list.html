@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<ol>
+{% for user in object_list %}
+<li>
+    <a href="{% url user_edit user.id %}">{{ user.name_display }}</a>
+</li>
+{% endfor %}
+</ol>
+
+
+{% endblock %}

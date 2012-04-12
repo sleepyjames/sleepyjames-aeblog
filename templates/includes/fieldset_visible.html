@@ -1,0 +1,6 @@
+{% load core_tags %}
+<fieldset class="{{ field.field.widget|get_class }} {% if field.errors %}error{% endif %}">
+    {{field.label_tag}}
+    {{ field }}
+    {% if field.errors %}{{ field.errors }}{% endif %}
+</fieldset>

@@ -18,7 +18,15 @@ from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.models import get_current_site
 
+from django.views.generic.base import TemplateView 
+from django.views.generic.edit import FormView 
+from django.core.urlresolvers import reverse
+from django.conf import settings
+from django.contrib import messages
+
+
 from models import User
+from forms import UserForm, UserEditForm
 
 
 def create_user(request):
@@ -121,4 +129,75 @@ def logout_then_login(request, login_url=None, current_app=None, extra_context=N
     if not login_url:
         login_url = settings.LOGIN_URL
     return logout(request, login_url, current_app=current_app, extra_context=extra_context)
+
+
+class UserList(TemplateView):
+    """ List available users
+    """
+
+    template_name = "auth/user_list.html"
+
+    def get_context_data(self, *args, **kwargs):
+
+        ctx = super(self.__class__, self).get_context_data(*args, **kwargs)
+
+        ctx.update({
+            'object_list': User.all(),
+        })
+
+        return ctx
+
+
+class BaseUserView(FormView):
+
+    template_name = "auth/user_form.html"
+    form_class = UserForm
+
+    def form_invalid(self, form):
+        messages.error(self.request, u"Sorry there was a problem saving your post. Please check for errors below.")
+        return super(BaseUserView, self).form_invalid(form)
+
+    def get_success_url(self):
+        return reverse('user_edit', args=[self.object.id])
+
+
+class UserEdit(BaseUserView):
+    """ Edit user 
+    """
+
+    form_class = UserEditForm
+
+    def get_object(self):
+        pk = self.kwargs.get('pk', 0)
+        self.object = User.get_by_id(int(pk))
+        return self.object
+
+    def get_context_data(self, **kwargs):
+        ctx = super(UserEdit, self).get_context_data(**kwargs)
+        ctx['object'] = self.get_object()
+        return ctx
+
+    def get_initial(self):
+        self.get_object()
+        return {
+            'first_name': self.object.first_name,
+            'last_name': self.object.last_name,
+            'username': self.object.username,
+        }
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+        self.object.first_name = data['first_name']
+        self.object.last_name = data['last_name']
+        self.object.username = data['username']
+
+        # Update password
+        new_password = data.get('new_password', '')
+        if new_password != '':
+            self.object.set_password(new_password)
+
+        self.object.prepare()
+        self.object.put()
+        messages.success(self.request, u"User was updated successfully")
+        return super(UserEdit, self).form_valid(form)
 

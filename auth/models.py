@@ -19,6 +19,9 @@ class User(db.Model):
 
     password = db.StringProperty()
 
+    def prepare(self):
+        pass
+
     @property
     def id(self):
         """ We use this to emulate contrib.auth's User models
@@ -38,5 +41,13 @@ class User(db.Model):
         return True
 
     def get_full_name(self):
-        return '%s %s' % (self.first_name, self.last_name)
+        if self.first_name and self.last_name:
+            return '%s %s' % (self.first_name, self.last_name)
+        else:
+            return ''
+
+    @property
+    def name_display(self):
+        n = self.get_full_name() 
+        return n and n or self.username
 

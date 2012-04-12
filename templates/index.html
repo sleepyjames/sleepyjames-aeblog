@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load blog_tags %}
+
+{% block content %}
+
+<h1>Latest Posts</h1>
+
+<p>Welcome to the app engine blog</p>
+
+{% if request.user.is_authenticated %}
+    {% get_posts as objects %}
+{% else %}
+    {% get_published_posts as objects %}
+{% endif %}
+
+<ol class="post-list">
+{% include "blog/includes/post_list.html" with posts=objects%}
+</ol>
+
+
+{% endblock %}

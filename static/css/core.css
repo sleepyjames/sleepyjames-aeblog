@@ -1,0 +1,294 @@
+body {
+    background:#efefef;    
+    margin:0px;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Antic Didone', serif;
+    font-size:1em;
+}
+h1 { font-size:2em; }
+h2 { font-size:1.5em; }
+
+.clearfix:before, .clearfix:after { content: "\0020"; display: block; height: 0; visibility: hidden; }
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; }
+
+/**
+ * Links
+ */
+a, a:link, a:active, a:visited { color:#0066ff; }
+a:hover { text-decoration:none; }
+
+/*
+ * Layout 
+ */
+
+#container {
+    width:960px;
+    margin:0 auto;
+}
+
+header {
+    background:#aaaaaa;
+    padding:0 1em 1em 1em;
+}
+
+
+header .logo {
+    float:left;
+    font-size:3em;
+    margin-top:.25em;
+}
+
+header .accounts {
+    float:right;
+    margin-top:1em;
+}
+
+header #topnav {
+    clear:both;
+}
+
+header #topnav-mobile {
+    display:none;    
+}
+
+#content {
+    padding:0 1em 2em 1em;
+}
+
+
+/**
+ * Messages
+ */
+
+#messages {
+    margin:0;
+    padding:0;
+}
+
+#messages li {
+    list-style:none;
+    padding:.5em 1em; 
+    background:#efefef;
+}
+
+#messages li.success {
+    background:#efffef;
+}
+#messages li.error {
+    background:#ffeaea;
+}
+
+
+#messages .close {
+    float:right;
+    padding-left:1em;
+}
+
+
+/**
+ * Nav
+ */
+
+header nav ul {
+   margin:0px;
+   padding:0px;
+}
+
+header nav ul li  {
+    list-style:none;
+    display:inline;
+    padding-right:16px;
+    margin-right:16px;
+    border-right:1px solid #666666;
+}
+
+header nav ul li:last-child {
+    border-right:none;
+}
+
+/**
+ * Posts
+ */
+
+ol.post-list {
+    margin:0;
+    padding:0;
+}
+
+.post-list li {
+    list-style:none;
+    border-bottom:1px dotted #666666;
+    padding-bottom:1em;
+}
+
+.post-list li.draft {
+
+}
+
+
+/**
+ * Post
+ */
+
+article.post .meta {
+    font-style:italic;
+}
+
+/*
+ * Pagination
+ */
+
+.pagination {
+    padding:1em 0;
+}
+
+.pagination ul {
+    padding:0;
+    margin:0;
+    display:inline;
+}
+
+.pagination li {
+    list-style:none;
+    display:inline;
+}
+.pagination .next,
+.pagination .prev {
+    
+}
+
+/**
+ * Forms
+ */
+
+fieldset {
+    border:none;
+    padding:0 0 1em 0;
+}
+
+form.simple fieldset label {
+    display:block;
+}
+
+form .errorlist {
+    color:#ff0000;
+    margin:0;
+    padding:0;
+}
+
+form .errorlist li {
+    margin:0;
+    padding:0;
+    list-style:none;
+    font-style:italic;
+}
+
+form.simple button {
+    padding:.5em;
+}
+
+form.simple .error input[type="text"],
+form.simple .error textarea
+{
+    border:1px solid #ff0000;
+}
+
+form.simple .checkboxinput label {
+    display:inline;
+}
+
+
+/**
+ * Mobile 
+ */
+@media only screen and (max-width: 767px) {
+
+    body { }
+
+    h1, h2, h3, h4, h5 { font-size:1em; }
+    h1 { font-size:1.5em; }
+    h2 { font-size:1em; }
+
+    #container {
+        width:auto;
+        margin:auto;
+    }
+
+    header .accounts .greeting {
+        display:block;
+    }
+
+    header .accounts {
+        margin-top:0;
+        text-align:right;
+    }
+
+    header #topnav-mobile {
+        display:block;
+        clear:both;
+    }
+
+    header #topnav {
+        display:none;
+    }
+
+    header .logo {
+        font-size:1.5em;
+        margin:.5em 0 .5em 0;
+    }
+
+    #messages {
+        position:fixed;
+        z-index:100;
+        top:0;
+        width:100%;
+        -moz-box-shadow: 0px 2px 5px #666666; 
+        -webkit-box-shadow: 0px 2px 5px #666666;
+        box-shadow: 0px 2px 5px #666666;
+    }
+
+    #messages li { 
+        padding-bottom:1.5em; 
+        /*text-align:center;*/
+    }
+
+    #messages ._close {
+        float:none;
+        display:block;
+        position:absolute;
+        bottom:.5em;
+        left:0px;
+        width:100%;
+        margin-left:-1em;
+        text-align:center;
+    }
+
+    #content { padding:0 1em; }
+
+
+    .head h1 { float:left; }
+    .head .option {
+        float:right; 
+        margin-top:1em;
+    }
+
+    form.simple button { padding:1em; }
+
+    body.form form.simple {
+        clear:both;
+    }
+
+    body.form form.simple input[type="text"],
+    body.form form.simple textarea {
+        display:block;
+        width:87%;
+        padding:1em;
+    }
+
+    .pagination { padding:1em 0 4em 0; }
+    .pagination .numbers a { padding:0 .5em; }
+
+}

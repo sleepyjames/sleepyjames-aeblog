@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Login</h1>
+
+<form class="simple" action="" method="post">{% csrf_token %}
+
+    <div class="non_field_errors">
+        {% if form.non_field_errors %}
+            {{ form.non_field_errors }}
+        {% endif %}
+        {% if form.errors %}
+        {% endif %}
+    </div>
+
+    <input type="hidden" name="next" value="/" />
+
+    <fieldset class="textinput">
+        <label for="id_username">Username</label>
+        <input type="text" name="username" id="id_username" value="{{request.POST.username}}" />
+        {{ form.username.errors }}
+    </fieldset>
+
+    <fieldset class="textinput">
+        <label for="id_password">Password</label>
+        <input type="password" name="password" id="id_password" value="{{request.POST.password}}" />
+        {{ form.password.errors }}
+    </fieldset>
+
+    <button type="submit"><span>Login</span></button>
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block js %}
+{{ block.super }}
+{{ form.media }}
+{% endblock %}
+
+{% block bodyclass %}form{% endblock %}
+
+{% block content %}
+
+<div class="head">
+    <h1>{% if object %}Edit Post{% else %}New Post{% endif %}</h1>
+    {% if object and object.is_published %}
+    <a class="option" href="{% url post_detail object.slug %}">View Post</a>
+    {% endif %}
+</div>
+
+<form class="simple" action="" method="post">{% csrf_token %}
+
+    <div class="non_field_errors">
+    {{form.non_field_errors}}
+    </div>
+
+    {% for field in form.hidden_fields %}
+        {% include "includes/fieldset_hidden.html" %}
+    {% endfor %}
+    {% for field in form.visible_fields %}
+        {% include "includes/fieldset_visible.html" %}
+    {% endfor %}
+    <button type="submit"><span>{% if object %}Update{% else %}Create{% endif %}</span></button>
+</form>
+
+{% endblock %}

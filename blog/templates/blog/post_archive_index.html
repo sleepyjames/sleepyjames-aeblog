@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Archive</h1>
+
+<ol class="post-list">
+    <li><h3><a href="{% url post_archive_year 2012 %}">2012</a></h3></li>
+    <li><h3><a href="{% url post_archive_year 2011 %}">2011</a></h3></li>
+    <li><h3><a href="{% url post_archive_year 2010 %}">2010</a></h3></li>
+</ol>
+
+{% endblock %}

@@ -1,4 +1,4 @@
-application: djappeng1ne
+application: sleepyjames-aeblog 
 version: 1
 runtime: python27
 api_version: 1
@@ -14,7 +14,7 @@ inbound_services:
 handlers:
 
 - url: /static
-  static_dir: core/static
+  static_dir: staticfiles
   expiration: '1m'
 
 - url: /.*

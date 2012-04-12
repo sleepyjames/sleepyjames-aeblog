@@ -40,8 +40,6 @@ def auth(request):
     django.contrib.auth).
     """
 
-    logging.debug('---> auth')
-
     # If we access request.user, request.session is accessed, which results in
     # 'Vary: Cookie' being sent in every request that uses this context
     # processor, which can easily be every request on a site if
@@ -59,7 +57,6 @@ def auth(request):
             logging.debug('no user')
             from django.contrib.auth.models import AnonymousUser
             return AnonymousUser()
-    get_user()
 
     return {
         'user': SimpleLazyObject(get_user),

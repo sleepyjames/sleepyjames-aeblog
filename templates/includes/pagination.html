@@ -1,0 +1,15 @@
+<div class="pagination">
+    {% if page_obj.has_prev_page %}
+    <a href="?p={{page_obj.prev_page}}">&lt; Newer</a>
+    {% endif %}
+    <ul class="numbers">
+        {% for p in paginator.page_range %}
+        <li class="{% if p == page_obj.number %}on{% endif %}">
+            <a href="?p={{p}}">{{p}}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% if page_obj.has_next_page %}
+    <a href="?p={{page_obj.next_page}}">Older &gt;</a>
+    {% endif %}
+</div>

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Posts</h1>
+
+<ol class="post-list">
+{% include "blog/includes/post_list.html" with posts=page_obj.object_list %}
+</ol>
+
+{% include "includes/pagination.html" %}
+
+{% endblock %}
