@@ -172,6 +172,14 @@ fieldset {
 form.simple fieldset label {
     display:block;
 }
+form.simple .required label {
+    display:block;
+    margin:1em 0 .5em 0;
+    font-weight:bold;
+}
+form.simple .required label:after  {
+    content:" *";
+}
 
 form .errorlist {
     color:#ff0000;
@@ -190,6 +198,11 @@ form.simple button {
     padding:.5em;
 }
 
+form.simple input[type="text"],
+form.simple textarea {
+    width:28.125em;
+}
+
 form.simple .error input[type="text"],
 form.simple .error textarea
 {
@@ -198,6 +211,10 @@ form.simple .error textarea
 
 form.simple .checkboxinput label {
     display:inline;
+}
+
+form.simple .dateinput input {
+    width:12.5em;
 }
 
 

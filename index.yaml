@@ -14,4 +14,9 @@ indexes:
   properties:
   - name: is_published
   - name: post_date
+
+- kind: Post
+  properties:
+  - name: is_published
+  - name: post_date
     direction: desc

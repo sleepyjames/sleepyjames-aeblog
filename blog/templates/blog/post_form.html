@@ -28,7 +28,10 @@
     {% for field in form.visible_fields %}
         {% include "includes/fieldset_visible.html" %}
     {% endfor %}
+
     <button type="submit"><span>{% if object %}Update{% else %}Create{% endif %}</span></button>
+    {% if object %}or <a href="{% url post_delete object.id %}?from={{request.path}}">Delete</a>{% endif %}
+
 </form>
 
 {% endblock %}

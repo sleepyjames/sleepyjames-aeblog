@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<h1>Posts for Year</h1>
+<h1>Archive for {{ display_message }}</h1>
 
 <ol class="post-list">
 {% include "blog/includes/post_list.html" with posts=page_obj.object_list %}

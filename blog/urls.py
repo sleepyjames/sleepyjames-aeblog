@@ -21,4 +21,6 @@ urlpatterns = patterns('',
 
     url('^post/(?P<pk>\d+)/edit/$', login_required(views.PostEdit.as_view()), name="post_edit"),
 
+    url('^post/(?P<pk>\d+)/delete/$', login_required(views.PostDelete.as_view()), name="post_delete"),
+
 )

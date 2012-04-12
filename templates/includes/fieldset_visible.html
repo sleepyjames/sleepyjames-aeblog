@@ -1,6 +1,6 @@
 {% load core_tags %}
-<fieldset class="{{ field.field.widget|get_class }} {% if field.errors %}error{% endif %}">
-    {{field.label_tag}}
+<fieldset class="{{ field.field.widget|get_class }} {% if field.errors %}error{% endif %} {% if field.field.required %}required{% endif %}">
+    <label for="{{field.auto_id}}">{{field.label}}</label>
     {{ field }}
     {% if field.errors %}{{ field.errors }}{% endif %}
 </fieldset>

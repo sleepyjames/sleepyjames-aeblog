@@ -1,7 +1,7 @@
 {% for post in posts %}
 <li class="{% if not post.is_published %}draft{% endif %}">
 <h3 class="title"><a href="{% url post_detail post.slug %}">{{ post.title }}</a>{% if not post.is_published %}(draft){% endif %}</h3>
-    <p>{{post.content|striptags|truncatewords:10}}</p>
+    <p>{{post.content|striptags|truncatewords:10|safe}}</p>
     <em class="meta">Posted on {{ post.post_date }} {% if post.author %}by {{ post.author.name_display }}{% endif %}</em>
 </li>
 {% empty %}

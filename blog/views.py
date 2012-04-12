@@ -2,12 +2,14 @@ import logging
 from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
 
+from django.shortcuts import redirect
 from django.contrib import messages
 from django.http import Http404
 from django.views.generic.base import TemplateView 
 from django.views.generic.edit import FormView 
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from django.template.defaultfilters import date as datefilter
 
 from models import Post
 from forms import PostForm 
@@ -53,6 +55,43 @@ class PostArchiveIndex(TemplateView):
 
     template_name = "blog/post_archive_index.html"
 
+    def get_context_data(self, *args, **kwargs):
+
+        ctx = super(PostArchiveIndex, self).get_context_data(**kwargs)
+
+        first = Post.all().order("post_date").get()
+        latest =  Post.all().order("-post_date").get()
+        years = []
+
+        if self.request.user.is_authenticated():
+            gql = 'WHERE post_date >= :1 AND post_date < :2'
+        else:
+            gql = 'WHERE is_published = 1 AND post_date >= :1 AND post_date < :2'
+
+        if latest:
+
+            y = first.post_date.year
+            years.append(y)
+
+            y += 1
+
+            while y < latest.post_date.year:
+
+                lower = date(y, 1, 1)
+                upper = date(y+1, 1, 1)
+
+                if Post.gql(gql, lower, upper).count() > 0:
+                    years.append(y)
+                y += 1
+
+            if first.post_date.year != latest.post_date.year:
+                years.append(latest.post_date.year)
+
+            years.reverse() 
+            ctx['years'] = years
+
+        return ctx
+
 
 class PostArchive(TemplateView):
     """ Display a list of posts by day/month/year
@@ -74,26 +113,30 @@ class PostArchive(TemplateView):
             if day and month and year:
                 lower_limit = date(int(year), int(month), int(day))
                 upper_limit = lower_limit + relativedelta(days=+1)
+                msg = "%s" % datefilter(lower_limit, "jS M Y")
             elif month and year:
                 lower_limit = date(int(year), int(month), 1)
                 upper_limit = lower_limit + relativedelta(months=+1)
+                msg = "%s" % datefilter(lower_limit, "F Y")
             elif year:
                 lower_limit = date(int(year), 1, 1)
                 upper_limit = lower_limit + relativedelta(years=+1)
+                msg = "%s" % year
         except ValueError:
             raise Http404
 
         if self.request.user.is_authenticated():
-            objects = Post.gql("WHERE post_date >= :1 AND post_date <= :2 ORDER BY post_date DESC", 
-                lower_limit, upper_limit)
+            gql = "WHERE post_date >= :1 AND post_date <= :2 ORDER BY post_date DESC"
         else:
-            objects = Post.gql("WHERE is_published = :1 AND post_date >= :2 AND post_date <= :3 ORDER BY post_date DESC", 
-                True, lower_limit, upper_limit)
+            gql = "WHERE is_published = 1 AND post_date >= :2 AND post_date <= :3 ORDER BY post_date DESC"
+
+        objects = Post.gql(gql, lower_limit, upper_limit)
 
         pager = Paginator(objects, PAGE_SIZE)
         page_obj = pager.page(page)
 
         ctx.update({
+            'display_message': msg,
             'paginator': pager,
             'page_obj': page_obj,
             'year': year,
@@ -192,4 +235,30 @@ class PostEdit(BasePostView):
         self.object.put()
         messages.success(self.request, u"Your post was updated successfully")
         return super(PostEdit, self).form_valid(form)
+
+
+class PostDelete(TemplateView):
+
+    template_name = "blog/post_delete.html"
+
+    def get_object(self):
+        id = self.kwargs.get('pk', '')
+        self.object = Post.get_by_id(int(id))
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = super(PostDelete, self).get_context_data(**kwargs)
+        self.get_object()
+        ctx['object'] = self.object
+        return ctx
+
+    def post(self, *args, **kwargs):
+
+        self.get_object()
+        if not self.object:
+            raise Http404
+        title = self.object.title
+        self.object.delete()
+        messages.success(self.request, u"Your post '%s' was deleted successfully" % title)
+
+        return redirect('/')
 
