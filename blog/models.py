@@ -26,7 +26,7 @@ class Post(db.Model):
     title = db.StringProperty()
     slug = db.StringProperty()
     is_published = db.BooleanProperty()
-    content = db.StringProperty(multiline=True)
+    content = db.TextProperty()
     post_date = db.DateProperty()
     author = db.ReferenceProperty(User)
     category = db.ReferenceProperty(Category)
