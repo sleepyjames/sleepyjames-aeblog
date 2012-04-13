@@ -66,7 +66,7 @@ class PostArchiveIndex(TemplateView):
         if self.request.user.is_authenticated():
             gql = 'WHERE post_date >= :1 AND post_date < :2'
         else:
-            gql = 'WHERE is_published = 1 AND post_date >= :1 AND post_date < :2'
+            gql = 'WHERE is_published = true AND post_date >= :1 AND post_date < :2'
 
         if latest:
 
@@ -128,7 +128,7 @@ class PostArchive(TemplateView):
         if self.request.user.is_authenticated():
             gql = "WHERE post_date >= :1 AND post_date <= :2 ORDER BY post_date DESC"
         else:
-            gql = "WHERE is_published = 1 AND post_date >= :1 AND post_date <= :2 ORDER BY post_date DESC"
+            gql = "WHERE is_published = true AND post_date >= :1 AND post_date <= :2 ORDER BY post_date DESC"
 
         objects = Post.gql(gql, lower_limit, upper_limit)
 
