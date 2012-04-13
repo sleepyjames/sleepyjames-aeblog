@@ -199,11 +199,13 @@ form.simple button {
 }
 
 form.simple input[type="text"],
+form.simple input[type="password"],
 form.simple textarea {
     width:28.125em;
 }
 
 form.simple .error input[type="text"],
+form.simple .error input[type="password"],
 form.simple .error textarea
 {
     border:1px solid #ff0000;
